@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "YT to Invidious",
   "description": "A simple little extension that redirects you from YouTube Videos to Invidious. Invidious is a YouTube client with 0 zeros ads.",
-  "version": "0.2.1",
+  "version": "1.0",
   "permissions": ["storage", "tabs", "<all_urls>"],
   "background": {
     "scripts": ["background.js"]
