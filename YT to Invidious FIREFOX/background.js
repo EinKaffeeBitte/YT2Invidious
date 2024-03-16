@@ -1,34 +1,22 @@
-function checkURL(tabId, url) {
-        // Check if the URL is from YouTube
-        if (url.includes('https://youtube.com/watch?v=') || url.includes('https://www.youtube.com/watch?v=')) {
-            // Get the YouTube video watch ID
-            let watchID = url.split('v=')[1];
-            let ampersandPosition = watchID.indexOf('&');
-            if (ampersandPosition != -1) {
-                watchID = watchID.substring(0, ampersandPosition);
-            }
-            console.log(watchID);
-            // Get the selected URL from chrome.storage.local
-            chrome.storage.local.get(['useURL'], function(result) {
-                let selectedUrl = result.useURL;
-                if (!selectedUrl) {
-                    // Set the useURL variable to the default value
-                    selectedUrl = 'https://vid.puffian.us/watch?v=';
-                }
-                // Change the current tab's URL to the selected URL plus the watch ID
-                chrome.tabs.update(tabId, {url: selectedUrl + watchID});
-            });
-        }
+chrome.browserAction.onClicked.addListener(tab => {
+
+    var url = tab.url;
+    var youtubeUrls = ["https://www.youtube.com", "http://www.youtube.com", "https://youtube.com", "http://youtube.com"];
+    for(var i = 0; i < youtubeUrls.length; i++) {
+        if(url.includes(youtubeUrls[i])) {
+            var newUrl = url.split("youtube.com/watch?v=")[1];
+            chrome.storage.local.get(['useURL'], function(result) {
+                if(result.useURL == undefined) {
+                    chrome.storage.local.set({useURL: "https://iv.ggtyler.dev/watch?v="});
+                    var oldUrl = "https://iv.ggtyler.dev/watch?v=";
+                }
+                else {
+                    var oldUrl = result.useURL;
+                }
+                newUrl = oldUrl + newUrl;
+                chrome.tabs.update(tab.id, {url: newUrl});
+            });
+            break;
+        }
     }
-    
-    chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-        if (changeInfo.url) {
-            checkURL(tabId, changeInfo.url);
-        }
-    });
-    
-    chrome.tabs.onCreated.addListener(function(tab) {
-        if (tab.url) {
-            checkURL(tab.id, tab.url);
-        }
-    });
+});

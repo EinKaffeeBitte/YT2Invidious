@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    chrome.storage.local.get(['useURL'], function(result) {
+    browser.storage.local.get(['useURL'], function(result) {
         if (result.useURL) {
+            document.getElementById('urlSelect').value = result.useURL;
+        }
+        else {
+            browser.storage.local.set({'useURL': "https://iv.ggtyler.dev/watch?v="});
             document.getElementById('urlSelect').value = result.useURL;
         }
     });
@@ -8,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('saveButton').onclick = function() {
     let selectedUrl = document.getElementById('urlSelect').value;
-    chrome.storage.local.set({'useURL': selectedUrl}, function() {
+    browser.storage.local.set({'useURL': selectedUrl}, function() {
         console.log('URL saved');
     });
 };
