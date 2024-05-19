@@ -1,3 +1,7 @@
+# Note
+
+This is no longer maintained, there is a better tool, called [LibRedirect](https://libredirect.github.io) that is also open source and much better.
+
 # What this is
 
 This is a simple and lightweight extension that automatically redirects you from YouTube video webpages to Invidious URLS of the same video. However, it won't redirect you if you are on other YouTube pages.
